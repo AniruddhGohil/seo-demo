@@ -25,4 +25,4 @@ This project showcases my SEO + web design capabilities for demos, portfolio use
 
 ## Author
 Aniruddh Gohil  
-Ful-stack SEO Professional
+Full-stack SEO Professional
