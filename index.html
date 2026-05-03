@@ -1,992 +1,947 @@
 <!DOCTYPE html>
-<html lang="en" prefix="og: https://ogp.me/ns#">
-
-<!--
-  ════════════════════════════════════════════════════════════════════════
-  PROGRAMMATIC SEO PAGE TEMPLATE — NoBroker Theme
-  ════════════════════════════════════════════════════════════════════════
-  DYNAMIC VARIABLES (filled at build time from DB):
-    {locality}         → HSR Layout
-    {city}             → Bengaluru
-    {state}            → Karnataka
-    {intent}           → buy | rent | invest
-    {avg_price_psf}    → ₹8,400
-    {avg_rent_1bhk}    → ₹22,000
-    {price_trend_yoy}  → +11.2%
-    {livability_score} → 8.4
-    {top_builders}     → Prestige, Sobha
-    {nearby_list}      → Koramangala, BTM Layout, Electronic City
-    {metro_station}    → Bommanahalli (1.2 km)
-    {schools_count}    → 34
-    {hospitals_count}  → 12
-    {pincode}          → 560102
-    {last_updated}     → June 2025
-  ════════════════════════════════════════════════════════════════════════
--->
-
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- ═══════════════════════════════════════════════════
-       SEO LAYER 1 — TITLE & META
-       AEO: Title acts as answer-trigger query.
-       GEO: City + locality + intent = entity-rich signal.
+       SEO ELEMENT: <title> tag — Primary keyword signal
+       AEO TIP: Include city + service + brand (60 chars)
        ═══════════════════════════════════════════════════ -->
-  <title>Property in {locality}, {city} — Buy, Rent &amp; Price Trends 2025 | NoBroker</title>
-
-  <meta name="description"
-    content="Explore {locality}, {city} real estate — apartments from ₹{min_price}. Avg price ₹{avg_price_psf}/sq ft, rental ₹{avg_rent_1bhk}/mo. Top projects, connectivity map &amp; liveability score." />
+  <title>Home Interior Designers in {city} — Verified & Trusted | NoBroker</title>
 
   <!-- ═══════════════════════════════════════════════════
-       SEO LAYER 2 — CANONICAL & HREFLANG
-       Prevents duplicate-content dilution across intent variants.
+       SEO ELEMENT: Meta Description — Snippet trigger
+       AEO TIP: Answer the "who/what/where/cost" query
+       directly; AI Overview often pulls this verbatim.
        ═══════════════════════════════════════════════════ -->
-  <link rel="canonical" href="https://www.nobroker.in/{city_slug}/{locality_slug}/property-for-{intent}/" />
-  <link rel="alternate" hreflang="en-in" href="https://www.nobroker.in/{city_slug}/{locality_slug}/property-for-{intent}/" />
+  <meta name="description" content="Find top home interior designers in {city}. Compare portfolios, pricing & reviews. Starting from ₹{avg_cost_psf}/sq.ft. 500+ verified designers. Get free quotes today." />
 
-  <!-- ═══════════════════════════════════════════════════
-       SEO LAYER 3 — OPEN GRAPH (GEO/Social Signals)
-       ═══════════════════════════════════════════════════ -->
-  <meta property="og:title" content="Property in {locality}, {city} — Buy &amp; Rent 2025 | NoBroker" />
-  <meta property="og:description" content="Avg price ₹{avg_price_psf}/sq ft · Rental ₹{avg_rent_1bhk}/mo · Liveability {livability_score}/10" />
+  <!-- Canonical -->
+  <link rel="canonical" href="https://www.nobroker.in/interior-designers/{city}" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Home Interior Designers in {city} | NoBroker" />
+  <meta property="og:description" content="Hire verified home interior designers in {city}. Modular kitchens, living room, bedroom & full home interiors. Compare, shortlist & book." />
   <meta property="og:type" content="website" />
-  <meta property="og:locale" content="en_IN" />
-  <meta property="og:url" content="https://www.nobroker.in/{city_slug}/{locality_slug}/property-for-{intent}/" />
-  <meta property="og:image" content="https://cdn.nobroker.in/localities/{locality_slug}/og-map.jpg" />
+  <meta property="og:image" content="https://www.nobroker.in/images/interior-{city}-og.jpg" />
 
   <!-- ═══════════════════════════════════════════════════
-       SEO LAYER 4 — STRUCTURED DATA (AEO / PASSAGE INDEXING)
-       JSON-LD blocks are the primary AEO / citation signals.
-       AI agents extract answers directly from these schemas.
+       STRUCTURED DATA: LocalBusiness + Service schema
+       AEO TIP: FAQ, HowTo & ItemList schemas are KEY
+       for AI Overviews and passage-level citation.
        ═══════════════════════════════════════════════════ -->
-
-  <!-- 4a. BreadcrumbList — Navigation context for LLMs + SERPs -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.nobroker.in/" },
-      { "@type": "ListItem", "position": 2, "name": "Properties in {city}", "item": "https://www.nobroker.in/{city_slug}/property/" },
-      { "@type": "ListItem", "position": 3, "name": "{area} Properties", "item": "https://www.nobroker.in/{city_slug}/{area_slug}/property/" },
-      { "@type": "ListItem", "position": 4, "name": "Properties in {locality}", "item": "https://www.nobroker.in/{city_slug}/{locality_slug}/property-for-{intent}/" }
-    ]
-  }
-  </script>
-
-  <!-- 4b. RealEstateListing / LocalBusiness — Entity anchoring for GEO -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "RealEstateListing",
-    "name": "Properties in {locality}, {city}",
-    "description": "{locality} in {city} is a {character_summary}. Average property price is ₹{avg_price_psf} per sq ft with an annual appreciation of {price_trend_yoy}.",
-    "url": "https://www.nobroker.in/{city_slug}/{locality_slug}/property-for-{intent}/",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "{locality}",
-      "addressRegion": "{state}",
-      "postalCode": "{pincode}",
-      "addressCountry": "IN"
-    },
-    "geo": { "@type": "GeoCoordinates", "latitude": "{lat}", "longitude": "{lng}" },
-    "areaServed": "{locality}, {city}",
-    "offers": {
-      "@type": "AggregateOffer",
-      "priceCurrency": "INR",
-      "lowPrice": "{min_price}",
-      "highPrice": "{max_price}"
-    },
-    "dateModified": "{last_updated}"
-  }
-  </script>
-
-  <!-- 4c. FAQPage — Top AEO signal; answers extracted verbatim by Google AI Overviews & LLMs -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
+    "@graph": [
       {
-        "@type": "Question",
-        "name": "What is the average property price in {locality}, {city}?",
-        "acceptedAnswer": { "@type": "Answer", "text": "The average property price in {locality}, {city} is ₹{avg_price_psf} per sq ft as of {last_updated}. A 2BHK apartment typically costs between ₹{min_2bhk} and ₹{max_2bhk}." }
+        "@type": "Service",
+        "name": "Home Interior Design Services in {city}",
+        "provider": { "@type": "Organization", "name": "NoBroker" },
+        "areaServed": { "@type": "City", "name": "{city}" },
+        "description": "End-to-end home interior design and execution services in {city} including modular kitchens, wardrobes, false ceilings, living room & bedroom interiors.",
+        "offers": {
+          "@type": "AggregateOffer",
+          "priceCurrency": "INR",
+          "lowPrice": "{min_cost_psf}",
+          "highPrice": "{max_cost_psf}"
+        }
       },
       {
-        "@type": "Question",
-        "name": "Is {locality} good for investment in {city}?",
-        "acceptedAnswer": { "@type": "Answer", "text": "{locality} has shown {price_trend_yoy} appreciation year-over-year, driven by {investment_drivers}. The area carries a liveability score of {livability_score}/10." }
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the average interior design cost in {city}?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The average interior design cost in {city} ranges from ₹{min_cost_psf} to ₹{max_cost_psf} per sq.ft depending on the style (modular, contemporary, luxury) and scope of work. A 2BHK full home interior typically costs between ₹{avg_2bhk_min} and ₹{avg_2bhk_max}."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How long does home interior work take in {city}?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A full home interior project in {city} takes approximately {avg_timeline} weeks on average, depending on the size of the home and customisation required."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which areas in {city} have the best interior designers?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Top localities for interior designers in {city} include {locality_1}, {locality_2}, and {locality_3}, where many experienced studios and independent designers operate."
+            }
+          }
+        ]
       },
       {
-        "@type": "Question",
-        "name": "What is the average rent in {locality}, {city}?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Average rent in {locality} for a 1BHK is ₹{avg_rent_1bhk}/month and for a 2BHK is ₹{avg_rent_2bhk}/month as of {last_updated}." }
+        "@type": "ItemList",
+        "name": "Top Interior Designers in {city}",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "{designer_name_1}", "url": "https://www.nobroker.in/interior-designers/{city}/{designer_slug_1}" },
+          { "@type": "ListItem", "position": 2, "name": "{designer_name_2}", "url": "https://www.nobroker.in/interior-designers/{city}/{designer_slug_2}" },
+          { "@type": "ListItem", "position": 3, "name": "{designer_name_3}", "url": "https://www.nobroker.in/interior-designers/{city}/{designer_slug_3}" }
+        ]
       },
       {
-        "@type": "Question",
-        "name": "Which metro station is closest to {locality}?",
-        "acceptedAnswer": { "@type": "Answer", "text": "The nearest metro station to {locality} is {metro_station}, approximately {metro_distance} away on the {metro_line} Line." }
-      },
-      {
-        "@type": "Question",
-        "name": "What are the top residential projects in {locality}?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Top residential projects in {locality} include {top_projects}, developed by builders such as {top_builders}." }
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.nobroker.in/" },
+          { "@type": "ListItem", "position": 2, "name": "Interior Design", "item": "https://www.nobroker.in/interior-designers" },
+          { "@type": "ListItem", "position": 3, "name": "{city}", "item": "https://www.nobroker.in/interior-designers/{city}" }
+        ]
       }
     ]
   }
   </script>
 
-  <!-- 4d. Dataset — Signals to AI crawlers that this is a data-rich authoritative source -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Dataset",
-    "name": "{locality} Real Estate Market Data — {city}",
-    "description": "Aggregated property price, rental, and liveability data for {locality}, {city} updated {last_updated}.",
-    "creator": { "@type": "Organization", "name": "NoBroker", "url": "https://www.nobroker.in/" },
-    "dateModified": "{last_updated}",
-    "license": "https://www.nobroker.in/terms",
-    "variableMeasured": ["Average price per sq ft", "Rental index", "YoY appreciation", "Liveability score"]
-  }
-  </script>
-
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Sora:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
 </head>
-
 <body>
 
-<!-- ══════════════════════════════════════════════════════
-     ANNOTATION LEGEND (visible in demo mode)
-     ══════════════════════════════════════════════════════ -->
-<div class="legend-bar" id="legendBar">
-  <span class="legend-title">SEO Signal Map</span>
-  <div class="legend-items">
-    <span class="badge badge-aeo">AEO/GEO</span><span class="legend-label">Answer Engine &amp; Generative Citation</span>
-    <span class="badge badge-passage">Passage</span><span class="legend-label">Passage Indexing / AI Extractability</span>
-    <span class="badge badge-content">Content</span><span class="legend-label">Content Strategy Avenues</span>
-    <span class="badge badge-link">Link</span><span class="legend-label">Internal Linking Nodes</span>
-    <span class="badge badge-schema">Schema</span><span class="legend-label">Structured Data / JSON-LD</span>
+  <!-- ════════════════════════════════════════════════
+       SEO SIGNAL BAR — Internal Linking / Sitelinks
+       GEO TIP: Breadcrumb trail improves passage
+       attribution when AI agents parse the page.
+       ════════════════════════════════════════════════ -->
+  <div class="seo-signal-bar">
+    <span class="signal-label seo">SEO</span>
+    Internal Linking / Sitelinks Navigation — AI agents use this for site structure understanding
   </div>
-  <button class="toggle-annotations" onclick="toggleAnnotations()">Hide Annotations</button>
-</div>
-
-<!-- ══════════════════════════════════════════════════════
-     SITE HEADER / NAV
-     ══════════════════════════════════════════════════════ -->
-<header class="site-header" role="banner">
-  <div class="container nav-inner">
-    <div class="logo">
-      <span class="logo-icon">🏠</span>
-      <span class="logo-text">NoBroker<span class="logo-dot">.</span></span>
+  <nav class="top-nav" aria-label="Sitelinks Navigation">
+    <div class="nav-inner">
+      <div class="nav-links">
+        <a href="#">Buy</a><a href="#">Rent</a><a href="#">Sell</a>
+        <a href="#">Home Loans</a>
+        <a href="#" class="active">Interior Design ✦</a>
+        <a href="#">Packers & Movers</a>
+        <a href="#">Legal Services</a>
+      </div>
+      <div class="nav-cta">
+        <a href="#" class="btn-login">Login</a>
+        <a href="#" class="btn-primary-nb">Get Free Quotes →</a>
+      </div>
     </div>
-    <nav class="primary-nav" aria-label="Primary navigation">
-      <a href="#">Buy</a>
-      <a href="#">Rent</a>
-      <a href="#">Sell</a>
-      <a href="#">Home Loans</a>
-      <a href="#">Packers &amp; Movers</a>
+  </nav>
+
+  <!-- ════════════════════════════════════════════════
+       HERO SECTION
+       SEO: H1 with primary + secondary keyword
+       AEO: Stat-rich intro = AI citation magnet
+       PASSAGE: Hero stats are high-extractability chunks
+       ════════════════════════════════════════════════ -->
+  <div class="seo-signal-bar">
+    <span class="signal-label seo">SEO</span> H1 Tag — Primary Keyword: "Home Interior Designers in {locality}, {city}"
+    &nbsp;|&nbsp;
+    <span class="signal-label aeo">AEO</span> Stat blocks = AI Overview citation triggers
+    &nbsp;|&nbsp;
+    <span class="signal-label passage">PASSAGE</span> Each stat card = discrete extractable passage
+  </div>
+
+  <header class="hero-section" aria-label="Page Hero">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="#">Home</a> › <a href="#">Interior Design</a> › <a href="#">{city}</a> › <span>{locality}</span>
     </nav>
-    <div class="nav-cta">
-      <button class="btn btn-outline">Login</button>
-      <button class="btn btn-primary">Post Property FREE</button>
+
+    <div class="hero-layout">
+      <!-- Left: H1 + meta signals -->
+      <div class="hero-left">
+        <div class="hero-badges">
+          <span class="badge badge-green">Verified</span>
+          <span class="badge badge-blue">500+ Designers</span>
+          <span class="badge badge-orange">AI-Curated</span>
+        </div>
+
+        <!-- H1: Primary SEO Target -->
+        <h1 class="hero-h1">
+          Home Interior Designers in
+          <span class="highlight-locality">{locality}, {city}</span>
+        </h1>
+
+        <!-- AEO-rich subtitle: Who, What, How much — answerable snippet -->
+        <p class="hero-subtitle">
+          <strong>{active_listings}+ verified interior designers</strong> in {locality}. Avg. project cost
+          <strong>₹{avg_cost_psf}/sq.ft</strong>. Portfolios from
+          <strong>₹{min_budget}</strong> to <strong>₹{max_budget}</strong>.
+          Modular kitchens, wardrobes, false ceilings & full home interiors.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#quotes" class="btn-primary-nb">Get Free Quotes</a>
+          <a href="#designers" class="btn-outline">Browse Designers</a>
+          <a href="#portfolio" class="btn-outline">View Portfolios</a>
+        </div>
+
+        <!-- Schema-aligned stat pills -->
+        <div class="hero-stats-row">
+          <div class="stat-pill">
+            <span class="stat-icon">⭐</span>
+            <div><strong>{avg_rating}/5</strong><span>Avg. Rating</span></div>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-icon">🏠</span>
+            <div><strong>{projects_completed}+</strong><span>Projects Done</span></div>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-icon">⏱</span>
+            <div><strong>{avg_timeline} Wks</strong><span>Avg. Timeline</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Key metric cards (AI extractable) -->
+      <div class="hero-right">
+        <div class="hero-image-placeholder" aria-label="Interior design portfolio preview">
+          <div class="img-placeholder-inner">
+            <span>🛋</span>
+            <p>Portfolio Preview</p>
+          </div>
+        </div>
+        <div class="hero-metric-cards">
+          <div class="metric-card">
+            <span class="metric-label">Avg Cost/Sq.Ft</span>
+            <strong class="metric-value">₹{avg_cost_psf}</strong>
+            <span class="metric-sub">All styles included</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">2BHK Full Home</span>
+            <strong class="metric-value">₹{avg_2bhk_cost}</strong>
+            <span class="metric-sub">Turnkey execution</span>
+          </div>
+          <div class="metric-card metric-card--featured">
+            <span class="metric-label">Design Score</span>
+            <strong class="metric-value">{locality_design_score}/10</strong>
+            <span class="metric-sub">NoBroker Index</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Active Listings</span>
+            <strong class="metric-value">{active_listings}</strong>
+            <span class="metric-sub">Updated daily</span>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</header>
+  </header>
 
-<!-- ══════════════════════════════════════════════════════
-     BREADCRUMB
-     SEO: Breadcrumb schema + crawl path + internal link node
-     ══════════════════════════════════════════════════════ -->
-<nav class="breadcrumb-nav" aria-label="Breadcrumb" data-seo="internal-link schema">
-  <div class="container">
-    <!-- SEO ANNOTATION -->
-    <div class="seo-badge badge-link badge-schema ann" data-tooltip="BreadcrumbList JSON-LD + internal link chain · Distributes PageRank up the hub hierarchy">Link + Schema</div>
-    <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
-      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
-        <meta itemprop="position" content="1" />
-      </li>
-      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a href="/{city_slug}/property/" itemprop="item"><span itemprop="name">Properties in {city}</span></a>
-        <meta itemprop="position" content="2" />
-      </li>
-      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a href="/{city_slug}/{area_slug}/property/" itemprop="item"><span itemprop="name">{area} Properties</span></a>
-        <meta itemprop="position" content="3" />
-      </li>
-      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <span itemprop="name">Properties in {locality}</span>
-        <meta itemprop="position" content="4" />
-      </li>
-    </ol>
-  </div>
-</nav>
+  <main class="page-main">
 
-<!-- ══════════════════════════════════════════════════════
-     HERO SECTION
-     SEO: H1 (primary keyword) · Entity-dense lead · AEO trigger
-     ══════════════════════════════════════════════════════ -->
-<section class="hero-section" aria-labelledby="hero-heading">
-  <div class="container hero-inner">
+    <!-- ════════════════════════════════════════════════
+         SECTION 1: NEIGHBOURHOOD OVERVIEW
+         AEO: Descriptive prose = AI summary source
+         GEO: Named-entity dense text for Gemini/GPT
+         PASSAGE: Each paragraph = standalone passage
+         ════════════════════════════════════════════════ -->
+    <div class="seo-signal-bar">
+      <span class="signal-label aeo">AEO</span> Descriptive neighbourhood prose = AI Overview / Gemini citation source
+      &nbsp;|&nbsp;
+      <span class="signal-label passage">PASSAGE</span> Paragraph-level passage indexing — each para answers a distinct sub-query
+      &nbsp;|&nbsp;
+      <span class="signal-label geo">GEO</span> Named entity density: locality, city, landmarks = Gemini/ChatGPT grounding
+    </div>
 
-    <div class="hero-text">
-      <div class="seo-badge badge-aeo ann" data-tooltip="H1 = primary keyword anchor · AEO trigger: 'property in {locality}' queries · Entity: locality + city + intent">AEO/GEO — H1 Keyword Entity</div>
+    <section class="content-section" id="overview" aria-labelledby="overview-heading">
+      <div class="section-badges">
+        <span class="badge badge-green">Verified</span>
+        <span class="badge badge-blue">Curated</span>
+        <span class="badge badge-orange">Updated {last_updated}</span>
+      </div>
+      <!-- H2: Secondary keyword target -->
+      <h2 id="overview-heading">About {locality}, {city} — Interior Design Market Overview</h2>
 
-      <!-- ★ H1 — Primary Keyword + Entity Signal -->
-      <h1 id="hero-heading" class="hero-title">
-        Property in <span class="highlight">{locality}</span>, {city}
-        <span class="intent-tag">for {intent}</span>
-      </h1>
+      <div class="content-prose">
+        <!-- PASSAGE 1: Location context — "Where is {locality}?" -->
+        <p>
+          <strong>{locality}</strong> is one of {city}'s most sought-after residential areas for premium interior design services, combining urban accessibility with a growing community of design-conscious homeowners. The neighbourhood spans approximately {area_sqkm} sq.km and houses an estimated {household_count} residential units, ranging from compact 1BHK apartments to sprawling 4BHK villas and independent homes.
+        </p>
 
-      <p class="hero-sub">
-        <strong>{active_listings}+ verified properties</strong> · Avg ₹<strong>{avg_price_psf}</strong>/sq ft ·
-        Rentals from ₹<strong>{avg_rent_1bhk}</strong>/mo · Updated <time datetime="{last_updated_iso}">{last_updated}</time>
+        <!-- PASSAGE 2: Interior design demand drivers -->
+        <p>
+          Interior design demand in {locality} is driven by {demand_driver_1}, {demand_driver_2}, and a rising preference for {design_style} aesthetics. With {new_projects_count} new residential projects launching in the area, the pipeline of first-time home interior clients remains strong. NoBroker data shows that {percent_buyers}% of buyers in {locality} also enquire about interior design within 30 days of property purchase.
+        </p>
+
+        <!-- PASSAGE 3: Infrastructure / Design clusters -->
+        <p>
+          Several established interior design studios and independent designers operate out of {locality} and adjacent areas like {adjacent_locality_1} and {adjacent_locality_2}. The locality benefits from proximity to {furniture_market}, {tiles_hub}, and major material suppliers — reducing project timelines by an average of {timeline_saving} weeks compared to city-average. Infrastructure development, particularly {infra_project}, is expected to further boost demand for quality interior work in the coming years.
+        </p>
+      </div>
+
+      <div class="info-meta">
+        <span>👤 {verified_designer_count} verified designers in this area</span>
+        <span>🕐 Last updated: {last_updated}</span>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════
+         SECTION 2: PRICING TABLE
+         SEO: Keyword-rich table = featured snippet trigger
+         AEO: Structured pricing = AI answer for cost queries
+         PASSAGE: Each row = extractable price passage
+         ════════════════════════════════════════════════ -->
+    <div class="seo-signal-bar">
+      <span class="signal-label seo">SEO</span> Pricing table = Featured Snippet / Rich Result trigger for "interior design cost in {city}"
+      &nbsp;|&nbsp;
+      <span class="signal-label aeo">AEO</span> Tabular data = direct AI answer for "How much does interior design cost?"
+      &nbsp;|&nbsp;
+      <span class="signal-label passage">PASSAGE</span> Each row = discrete passage for "1BHK interior cost", "2BHK interior cost" etc.
+    </div>
+
+    <section class="content-section" id="pricing" aria-labelledby="pricing-heading">
+      <div class="section-badges">
+        <span class="badge badge-green">Verified</span>
+        <span class="badge badge-blue">Data-Backed</span>
+        <span class="badge badge-orange">Realtime</span>
+      </div>
+      <h2 id="pricing-heading">{locality} Interior Design Costs — {city} ({last_updated})</h2>
+
+      <div class="table-wrapper" role="region" aria-label="Interior design pricing table">
+        <table class="pricing-table">
+          <thead>
+            <tr>
+              <th>Home Type</th>
+              <th>Basic Package</th>
+              <th>Standard Package</th>
+              <th>Premium / Luxury</th>
+              <th>Avg. Timeline</th>
+              <th>Trend</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1BHK</strong><br /><small>{avg_1bhk_area} sq.ft approx.</small></td>
+              <td>₹{1bhk_basic_min}–{1bhk_basic_max}</td>
+              <td>₹{1bhk_std_min}–{1bhk_std_max}</td>
+              <td>₹{1bhk_premium_min}+</td>
+              <td>{1bhk_timeline} weeks</td>
+              <td class="trend-up">{1bhk_trend}% ↑</td>
+            </tr>
+            <tr>
+              <td><strong>2BHK</strong><br /><small>{avg_2bhk_area} sq.ft approx.</small></td>
+              <td>₹{2bhk_basic_min}–{2bhk_basic_max}</td>
+              <td>₹{2bhk_std_min}–{2bhk_std_max}</td>
+              <td>₹{2bhk_premium_min}+</td>
+              <td>{2bhk_timeline} weeks</td>
+              <td class="trend-up">{2bhk_trend}% ↑</td>
+            </tr>
+            <tr>
+              <td><strong>3BHK</strong><br /><small>{avg_3bhk_area} sq.ft approx.</small></td>
+              <td>₹{3bhk_basic_min}–{3bhk_basic_max}</td>
+              <td>₹{3bhk_std_min}–{3bhk_std_max}</td>
+              <td>₹{3bhk_premium_min}+</td>
+              <td>{3bhk_timeline} weeks</td>
+              <td class="trend-stable">{3bhk_trend}% →</td>
+            </tr>
+            <tr>
+              <td><strong>4BHK / Villa</strong><br /><small>{avg_4bhk_area} sq.ft approx.</small></td>
+              <td>₹{4bhk_basic_min}–{4bhk_basic_max}</td>
+              <td>₹{4bhk_std_min}–{4bhk_std_max}</td>
+              <td>₹{4bhk_premium_min}+</td>
+              <td>{4bhk_timeline} weeks</td>
+              <td class="trend-up">{4bhk_trend}% ↑</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="table-source">
+        Source: NoBroker transaction data · {city_count} transactions analysed · Updated {last_updated}
+      </p>
+    </section>
+
+    <!-- ════════════════════════════════════════════════
+         SECTION 3: INVESTMENT / ANALYSIS (AEO CORE)
+         AEO: Q&A format = AI Overview source
+         GEO: Opinionated answers = cited by LLMs
+         PASSAGE: Each H3 subsection = passage unit
+         ════════════════════════════════════════════════ -->
+    <div class="seo-signal-bar">
+      <span class="signal-label aeo">AEO</span> Q&A structure = #1 AI Overview / People Also Ask source
+      &nbsp;|&nbsp;
+      <span class="signal-label geo">GEO</span> Opinionated, data-backed prose = LLM citation (ChatGPT, Gemini, Perplexity)
+      &nbsp;|&nbsp;
+      <span class="signal-label passage">PASSAGE</span> H3 = passage boundary signals for search engines
+    </div>
+
+    <section class="content-section" id="analysis" aria-labelledby="analysis-heading">
+      <div class="section-badges">
+        <span class="badge badge-green">Verified</span>
+        <span class="badge badge-blue">Expert</span>
+        <span class="badge badge-orange">2025 Analysis</span>
+      </div>
+      <h2 id="analysis-heading">Is {locality} a Good Place to Hire Interior Designers? ({year} Analysis)</h2>
+
+      <!-- Quick Answer Box: AEO GOLD — AI tools love this -->
+      <div class="quick-answer-box" role="note" aria-label="Quick answer">
+        <div class="qa-label">⚡ Quick Answer</div>
+        <p>
+          <strong>Yes</strong>, {locality} in {city} has a strong and competitive interior design market with
+          {active_listings}+ active designers, average ratings of {avg_rating}/5, and project costs
+          starting from ₹{min_cost_psf}/sq.ft. Premium designers deliver full turnkey execution
+          within {avg_timeline} weeks. The area scores <strong>{locality_design_score}/10</strong>
+          on NoBroker's Interior Market Index, driven by {key_driver_1} and {key_driver_2}.
+        </p>
+      </div>
+
+      <!-- H3 sub-passages — each independently extractable -->
+      <h3>Why is Demand for Interior Designers Growing in {locality}?</h3>
+      <p>
+        Demand is rising primarily due to {growth_factor_1}, {growth_factor_2}, and an influx of
+        {buyer_profile} buyers who prefer {design_preference}. Property values in {locality} have
+        appreciated {price_growth}% over {time_period}, creating incentive for homeowners to invest
+        in quality interiors. A ready kitchen and modular wardrobe can add up to {value_addition}%
+        to the resale or rental value of a home in this micro-market.
       </p>
 
-      <!-- Intent tab switcher — creates separate indexable intent pages -->
-      <div class="intent-tabs" role="tablist" aria-label="Property intent">
-        <a href="/{city_slug}/{locality_slug}/property-for-buy/" class="tab tab-active" role="tab">Buy</a>
-        <a href="/{city_slug}/{locality_slug}/property-for-rent/" class="tab" role="tab">Rent</a>
-        <a href="/{city_slug}/{locality_slug}/property-for-invest/" class="tab" role="tab">Invest</a>
-        <a href="/{city_slug}/{locality_slug}/new-projects/" class="tab" role="tab">New Projects</a>
-      </div>
+      <h3>Who Hires Interior Designers in {locality}?</h3>
+      <p>
+        NoBroker data shows that {buyer_percent_1}% of interior enquiries in {locality} come from
+        first-time homebuyers aged {age_range}, primarily employed in {employer_type}. The typical
+        client has a household income above ₹{income_threshold}/month and a design budget between
+        ₹{budget_min} and ₹{budget_max}. A significant {buyer_percent_2}% are investors who hire
+        designers to maximise rental yield.
+      </p>
+
+      <h3>Risks to Consider</h3>
+      <p>
+        Potential clients should verify {risk_1}, ensure {risk_2}, and maintain a contingency budget
+        of at least {contingency_percent}% for scope changes. Projects involving structural work may
+        require additional permissions from {local_authority}. Comparing at least 3 designer quotes
+        is strongly recommended before signing a contract.
+      </p>
+    </section>
+
+    <!-- ════════════════════════════════════════════════
+         SECTION 4: SERVICE CATEGORIES
+         SEO: Category pages = internal linking hubs
+         AEO: Service list = "What does X cover?" answer
+         INTERNAL LINK: Each card → category landing page
+         ════════════════════════════════════════════════ -->
+    <div class="seo-signal-bar">
+      <span class="signal-label seo">SEO</span> Service category cards = internal link hub (PageRank distribution)
+      &nbsp;|&nbsp;
+      <span class="signal-label aeo">AEO</span> Service list = AI answer for "What types of interior design does NoBroker offer?"
+      &nbsp;|&nbsp;
+      <span class="signal-label internal-link">INTERNAL LINK</span> Each card links to a dedicated service + city category page
     </div>
 
-    <!-- Hero stat cards — passage-indexable data atoms -->
-    <div class="hero-stats">
-      <div class="seo-badge badge-passage ann" data-tooltip="Data cards = passage indexing atoms · Each stat is independently extractable by AI crawlers">Passage — Data Atoms</div>
-      <div class="stat-card">
-        <div class="stat-icon">📈</div>
-        <div class="stat-value">₹{avg_price_psf}<span class="stat-unit">/sq ft</span></div>
-        <div class="stat-label">Avg Sale Price</div>
-        <div class="stat-trend positive">{price_trend_yoy} vs last year</div>
+    <section class="content-section" id="services" aria-labelledby="services-heading">
+      <h2 id="services-heading">Interior Design Services in {locality}, {city}</h2>
+      <p class="section-intro">Explore specialised interior design services available in {locality}. Each category has dedicated designers with verified portfolios.</p>
+
+      <div class="service-grid">
+
+        <a href="/interior-designers/{city}/modular-kitchen" class="service-card">
+          <div class="service-icon">🍳</div>
+          <h3>Modular Kitchen Design</h3>
+          <p>L-shaped, parallel, U-shape & island kitchens. Laminate, acrylic, PU finish options.</p>
+          <div class="service-meta">
+            <span>{modular_kitchen_count} Designers</span>
+            <span>From ₹{kitchen_min}</span>
+          </div>
+          <span class="card-link">Explore →</span>
+        </a>
+
+        <a href="/interior-designers/{city}/living-room" class="service-card">
+          <div class="service-icon">🛋</div>
+          <h3>Living Room Interiors</h3>
+          <p>TV units, false ceilings, wall panels, sofa & entertainment setups for all BHK types.</p>
+          <div class="service-meta">
+            <span>{living_room_count} Designers</span>
+            <span>From ₹{living_min}</span>
+          </div>
+          <span class="card-link">Explore →</span>
+        </a>
+
+        <a href="/interior-designers/{city}/bedroom" class="service-card">
+          <div class="service-icon">🛏</div>
+          <h3>Bedroom Interiors</h3>
+          <p>Wardrobes, beds, study units & master bedroom design with smart storage solutions.</p>
+          <div class="service-meta">
+            <span>{bedroom_count} Designers</span>
+            <span>From ₹{bedroom_min}</span>
+          </div>
+          <span class="card-link">Explore →</span>
+        </a>
+
+        <a href="/interior-designers/{city}/full-home" class="service-card service-card--featured">
+          <div class="service-badge-top">Most Popular</div>
+          <div class="service-icon">🏠</div>
+          <h3>Full Home Interior</h3>
+          <p>End-to-end turnkey interior design & execution. Concept to completion in {avg_timeline} weeks.</p>
+          <div class="service-meta">
+            <span>{full_home_count} Designers</span>
+            <span>From ₹{full_home_min}</span>
+          </div>
+          <span class="card-link">Explore →</span>
+        </a>
+
+        <a href="/interior-designers/{city}/bathroom" class="service-card">
+          <div class="service-icon">🚿</div>
+          <h3>Bathroom & Washroom</h3>
+          <p>Sanitaryware, tiles, vanity design, shower enclosures & bathroom accessories.</p>
+          <div class="service-meta">
+            <span>{bathroom_count} Designers</span>
+            <span>From ₹{bathroom_min}</span>
+          </div>
+          <span class="card-link">Explore →</span>
+        </a>
+
+        <a href="/interior-designers/{city}/office-home" class="service-card">
+          <div class="service-icon">💼</div>
+          <h3>Home Office Design</h3>
+          <p>WFH-optimised workstations, ergonomic layouts, acoustic panels & storage.</p>
+          <div class="service-meta">
+            <span>{office_count} Designers</span>
+            <span>From ₹{office_min}</span>
+          </div>
+          <span class="card-link">Explore →</span>
+        </a>
+
       </div>
-      <div class="stat-card">
-        <div class="stat-icon">🏠</div>
-        <div class="stat-value">₹{avg_rent_1bhk}<span class="stat-unit">/mo</span></div>
-        <div class="stat-label">Avg 1BHK Rent</div>
-        <div class="stat-trend">{rental_yield}% yield</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">⭐</div>
-        <div class="stat-value">{livability_score}<span class="stat-unit">/10</span></div>
-        <div class="stat-label">Liveability Score</div>
-        <div class="stat-trend">{liveability_rank} in {city}</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">🏗️</div>
-        <div class="stat-value">{active_listings}</div>
-        <div class="stat-label">Active Listings</div>
-        <div class="stat-trend">{new_this_month} added this month</div>
-      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════
+         SECTION 5: TOP DESIGNERS LISTING
+         SEO: ItemList schema aligned cards
+         AEO: Designer profiles = "Best X in {city}" answer
+         PASSAGE: Each card = extractable entity passage
+         INTERNAL LINK: → individual designer profile pages
+         ════════════════════════════════════════════════ -->
+    <div class="seo-signal-bar">
+      <span class="signal-label seo">SEO</span> ItemList schema + card layout = "Best interior designers in {city}" featured list
+      &nbsp;|&nbsp;
+      <span class="signal-label aeo">AEO</span> Named designer entities with ratings = AI citation for recommendation queries
+      &nbsp;|&nbsp;
+      <span class="signal-label internal-link">INTERNAL LINK</span> Each card → designer profile page (deep internal linking)
     </div>
 
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════════════════
-     CONTENT BODY — Two-column layout
-     ══════════════════════════════════════════════════════ -->
-<main class="main-content" id="main-content" role="main">
-  <div class="container content-grid">
-
-    <!-- ─────────────── LEFT / PRIMARY COLUMN ─────────────── -->
-    <div class="primary-col">
-
-      <!-- ────────────────────────────────────────────────────
-           BLOCK 1 — OVERVIEW (AI-generated)
-           SEO: AEO paragraph · Topic authority · H2 keyword
-           PASSAGE: Standalone extractable paragraph
-           CONTENT: Neighbourhood character narrative
-           ──────────────────────────────────────────────────── -->
-      <article class="content-block" id="locality-overview"
-               itemscope itemtype="https://schema.org/Article"
-               aria-labelledby="overview-heading">
-
-        <div class="block-header">
-          <h2 id="overview-heading" class="block-title" itemprop="name">
-            About {locality}, {city} — Neighbourhood Overview
-          </h2>
-          <div class="seo-badges-row">
-            <div class="seo-badge badge-aeo ann" data-tooltip="AEO: 'What is {locality} like?' · GEO: Cited when LLMs answer neighbourhood queries · H2 targets secondary keyword">AEO/GEO</div>
-            <div class="seo-badge badge-passage ann" data-tooltip="Full paragraph is passage-indexed standalone · Ensure every sentence is self-contained and data-backed">Passage</div>
-            <div class="seo-badge badge-content ann" data-tooltip="Content avenue: AI-generated neighbourhood narrative · Must include 1 proper noun + 1 data point per paragraph">Content</div>
-          </div>
-        </div>
-
-        <!-- ★ PASSAGE BLOCK: AI-generated, locality-specific, >200 words, self-contained -->
-        <div class="passage-block" itemprop="articleBody"
-             data-passage-id="overview-{locality_slug}"
-             data-min-words="200"
-             data-requires-entities="locality,city,landmark">
-          <p>
-            {locality} is one of {city}'s most sought-after residential destinations, combining
-            premium liveability with strong investment fundamentals. Located in {area} {city},
-            this neighbourhood spans approximately {area_sqkm} sq km and houses over {resident_count}
-            residents across {bhk_types} apartment configurations and independent villas.
-          </p>
-          <p>
-            The locality is anchored by {landmark_1} and {landmark_2}, two landmarks that define
-            its urban character. With {restaurants_count}+ dining establishments, {coworking_count}
-            co-working spaces, and {parks_count} public parks within a 2-km radius, {locality}
-            appeals strongly to {buyer_persona}. Property prices have appreciated {price_trend_yoy}
-            year-over-year, outperforming the {city} citywide average of {city_avg_appreciation}.
-          </p>
-          <p>
-            Infrastructure development — particularly the upcoming {infra_project} — is expected
-            to further boost demand in {locality} through {forecast_year}.
-          </p>
-        </div>
-
-        <div class="content-meta">
-          <span class="meta-item">✍️ AI-generated · verified against NoBroker database</span>
-          <span class="meta-item">🔄 Last updated: <time datetime="{last_updated_iso}">{last_updated}</time></span>
-        </div>
-      </article>
-
-      <!-- ────────────────────────────────────────────────────
-           BLOCK 2 — PRICE TRENDS TABLE
-           SEO: Data authority · Passage indexing (table rows)
-           AEO: Answers "what is the price of 2BHK in {locality}"
-           ──────────────────────────────────────────────────── -->
-      <article class="content-block" id="price-trends"
-               aria-labelledby="price-heading">
-
-        <div class="block-header">
-          <h2 id="price-heading" class="block-title">
-            {locality} Property Prices — {city} ({last_updated})
-          </h2>
-          <div class="seo-badges-row">
-            <div class="seo-badge badge-aeo ann" data-tooltip="Each table row = answer to 'price of Xbhk in {locality}' · Structured data atoms for AI extraction">AEO/GEO</div>
-            <div class="seo-badge badge-passage ann" data-tooltip="Table is passage-indexed as a unit · Headers create semantic anchors for AI extraction">Passage</div>
-            <div class="seo-badge badge-schema ann" data-tooltip="Wrap with Dataset schema · Each row = statistical measure">Schema</div>
-          </div>
-        </div>
-
-        <!-- ★ PASSAGE BLOCK: Price table — each row is an independent data atom -->
-        <div class="passage-block" data-passage-id="prices-{locality_slug}">
-          <div class="table-wrapper">
-            <table class="data-table" role="table" aria-label="Property prices in {locality}">
-              <thead>
-                <tr>
-                  <th scope="col">Configuration</th>
-                  <th scope="col">Avg Sale Price</th>
-                  <th scope="col">Price Range</th>
-                  <th scope="col">Avg Rent/mo</th>
-                  <th scope="col">Rental Yield</th>
-                  <th scope="col">YoY Change</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><strong>1 BHK</strong></td>
-                  <td>₹{avg_1bhk_price}</td>
-                  <td>₹{min_1bhk}–₹{max_1bhk}</td>
-                  <td>₹{avg_rent_1bhk}</td>
-                  <td>{yield_1bhk}%</td>
-                  <td class="positive">{trend_1bhk}%</td>
-                </tr>
-                <tr>
-                  <td><strong>2 BHK</strong></td>
-                  <td>₹{avg_2bhk_price}</td>
-                  <td>₹{min_2bhk}–₹{max_2bhk}</td>
-                  <td>₹{avg_rent_2bhk}</td>
-                  <td>{yield_2bhk}%</td>
-                  <td class="positive">{trend_2bhk}%</td>
-                </tr>
-                <tr>
-                  <td><strong>3 BHK</strong></td>
-                  <td>₹{avg_3bhk_price}</td>
-                  <td>₹{min_3bhk}–₹{max_3bhk}</td>
-                  <td>₹{avg_rent_3bhk}</td>
-                  <td>{yield_3bhk}%</td>
-                  <td class="positive">{trend_3bhk}%</td>
-                </tr>
-                <tr>
-                  <td><strong>4 BHK+</strong></td>
-                  <td>₹{avg_4bhk_price}</td>
-                  <td>₹{min_4bhk}–₹{max_4bhk}</td>
-                  <td>₹{avg_rent_4bhk}</td>
-                  <td>{yield_4bhk}%</td>
-                  <td class="positive">{trend_4bhk}%</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p class="table-note">
-            Source: NoBroker transaction data · {transaction_count}+ deals analysed · Updated {last_updated}
-          </p>
-        </div>
-      </article>
-
-      <!-- ────────────────────────────────────────────────────
-           BLOCK 3 — INVESTMENT OUTLOOK (AI-generated)
-           SEO: Long-tail "is {locality} good for investment"
-           AEO: Direct answer block · Cited by AI Overviews
-           CONTENT: High-value content avenue for investor persona
-           ──────────────────────────────────────────────────── -->
-      <article class="content-block" id="investment-outlook"
-               aria-labelledby="invest-heading">
-
-        <div class="block-header">
-          <h2 id="invest-heading" class="block-title">
-            Is {locality} a Good Investment in {city}? (2025 Analysis)
-          </h2>
-          <div class="seo-badges-row">
-            <div class="seo-badge badge-aeo ann" data-tooltip="Long-tail AEO: 'Is {locality} good for investment?' · Direct answer paragraph is AI Overview bait">AEO/GEO</div>
-            <div class="seo-badge badge-content ann" data-tooltip="Content avenue: Investor persona content · High-intent, low-competition query cluster">Content</div>
-            <div class="seo-badge badge-passage ann" data-tooltip="Each H3 + paragraph = independently extractable passage · Use specific data, no vague adjectives">Passage</div>
-          </div>
-        </div>
-
-        <div class="passage-block" data-passage-id="invest-{locality_slug}" data-min-words="300">
-
-          <!-- Direct Answer Block — AEO Pattern -->
-          <div class="direct-answer" role="note" aria-label="Quick answer">
-            <div class="da-label">📌 Quick Answer</div>
-            <p class="da-text">
-              <strong>Yes, {locality} is considered a strong investment destination in {city}</strong>,
-              with {price_trend_yoy} annual appreciation, {rental_yield}% gross rental yield, and
-              strong demand from {buyer_persona}. The area scores {investment_grade} on NoBroker's
-              Investment Index for Q{quarter} {year}.
-            </p>
-          </div>
-
-          <!-- Sub-passages with H3 anchors — Passage indexing hooks -->
-          <h3>Why is {locality} appreciating?</h3>
-          <p>
-            {locality}'s price growth is driven by three primary factors: proximity to
-            {it_corridor} (approximately {it_distance}), upcoming {infra_project} expected by
-            {infra_timeline}, and a limited supply of premium residential land within the {pincode}
-            pincode belt.
-          </p>
-
-          <h3>Who is buying property in {locality}?</h3>
-          <p>
-            NoBroker data shows that {buyer_share}% of {locality} buyers are professionals
-            employed in {employer_cluster}, with the remaining {nri_share}% being NRI investors
-            from the {nri_diaspora} diaspora. The average buyer profile is a {buyer_age}-year-old
-            with a household income above ₹{hh_income_threshold}/annum.
-          </p>
-
-          <h3>Risks to consider</h3>
-          <p>
-            Investors should note {risk_factor_1} and {risk_factor_2}. The upcoming
-            {competing_project} in adjacent {adjacent_locality} may apply short-term pricing
-            pressure on resale apartments below {risk_sq_ft} sq ft.
-          </p>
-        </div>
-      </article>
-
-      <!-- ────────────────────────────────────────────────────
-           BLOCK 4 — CONNECTIVITY & INFRASTRUCTURE
-           SEO: "how to reach {locality}" queries
-           AEO: Cited for "nearest metro to {locality}"
-           PASSAGE: Each transport mode = separate data atom
-           ──────────────────────────────────────────────────── -->
-      <article class="content-block" id="connectivity"
-               aria-labelledby="connectivity-heading">
-
-        <div class="block-header">
-          <h2 id="connectivity-heading" class="block-title">
-            Connectivity &amp; Infrastructure — {locality}, {city}
-          </h2>
-          <div class="seo-badges-row">
-            <div class="seo-badge badge-aeo ann" data-tooltip="AEO: 'nearest metro to {locality}', 'how far is {locality} from airport' — structured answer atoms">AEO/GEO</div>
-            <div class="seo-badge badge-passage ann" data-tooltip="Each connectivity card = isolated extractable passage · Label + distance + time = complete answer unit">Passage</div>
-          </div>
-        </div>
-
-        <div class="passage-block" data-passage-id="connectivity-{locality_slug}">
-          <div class="connectivity-grid">
-
-            <div class="conn-card" itemscope itemtype="https://schema.org/Place">
-              <div class="conn-icon">🚇</div>
-              <div class="conn-info">
-                <div class="conn-label">Nearest Metro</div>
-                <div class="conn-value" itemprop="name">{metro_station}</div>
-                <div class="conn-detail">{metro_distance} · {metro_line} Line · {metro_walk} walk</div>
-              </div>
-            </div>
-
-            <div class="conn-card">
-              <div class="conn-icon">✈️</div>
-              <div class="conn-info">
-                <div class="conn-label">International Airport</div>
-                <div class="conn-value">{airport_name}</div>
-                <div class="conn-detail">{airport_distance} · ~{airport_time} by road</div>
-              </div>
-            </div>
-
-            <div class="conn-card">
-              <div class="conn-icon">🏢</div>
-              <div class="conn-info">
-                <div class="conn-label">Nearest IT Hub</div>
-                <div class="conn-value">{it_hub_name}</div>
-                <div class="conn-detail">{it_hub_distance} · {it_hub_employers}+ employers</div>
-              </div>
-            </div>
-
-            <div class="conn-card">
-              <div class="conn-icon">🚌</div>
-              <div class="conn-info">
-                <div class="conn-label">Bus Connectivity</div>
-                <div class="conn-value">{bus_routes_count} Routes</div>
-                <div class="conn-detail">Direct routes to {bus_destinations}</div>
-              </div>
-            </div>
-
-            <div class="conn-card">
-              <div class="conn-icon">🛣️</div>
-              <div class="conn-info">
-                <div class="conn-label">Nearest Highway</div>
-                <div class="conn-value">{highway_name}</div>
-                <div class="conn-detail">{highway_distance} · Connects to {highway_connects}</div>
-              </div>
-            </div>
-
-            <div class="conn-card upcoming">
-              <div class="conn-icon">🔜</div>
-              <div class="conn-info">
-                <div class="conn-label">Upcoming Infrastructure</div>
-                <div class="conn-value">{upcoming_infra}</div>
-                <div class="conn-detail">Expected by {infra_eta} · Impact: {infra_impact}</div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </article>
-
-      <!-- ────────────────────────────────────────────────────
-           BLOCK 5 — TOP PROJECTS LISTINGS
-           SEO: "{builder} projects in {locality}" long-tails
-           CONTENT: Project-level internal link junction
-           ──────────────────────────────────────────────────── -->
-      <section class="content-block" id="top-projects"
-               aria-labelledby="projects-heading">
-
-        <div class="block-header">
-          <h2 id="projects-heading" class="block-title">
-            Top Residential Projects in {locality}, {city}
-          </h2>
-          <div class="seo-badges-row">
-            <div class="seo-badge badge-content ann" data-tooltip="Content avenue: Each project card = seed for /project/ child page · High-commercial-intent long-tail targets">Content</div>
-            <div class="seo-badge badge-link ann" data-tooltip="Internal link junction: Locality → Project pages (PageRank flow down the hub spoke)">Link</div>
-            <div class="seo-badge badge-schema ann" data-tooltip="Each card = RealEstateListing schema entity · Connects to builder + locality entities">Schema</div>
-          </div>
-        </div>
-
-        <div class="projects-grid">
-          <!-- Project Card Template (repeated N times) -->
-          <article class="project-card" itemscope itemtype="https://schema.org/RealEstateListing">
-            <div class="project-badge">{project_status_1}</div>
-            <div class="project-img-placeholder" aria-label="Project image"></div>
-            <div class="project-body">
-              <div class="project-builder">{builder_1}</div>
-              <h3 class="project-name" itemprop="name">
-                <a href="/{city_slug}/{locality_slug}/{project_slug_1}/" itemprop="url">{project_name_1}</a>
-              </h3>
-              <div class="project-config">{project_configs_1}</div>
-              <div class="project-price" itemprop="offers" itemscope itemtype="https://schema.org/AggregateOffer">
-                <span itemprop="priceCurrency" content="INR">₹</span><span itemprop="lowPrice">{project_min_1}</span> – ₹{project_max_1}
-              </div>
-              <div class="project-meta">
-                <span>📍 {locality}</span>
-                <span>📅 {project_possession_1}</span>
-                <span>🏗️ {project_units_1} units</span>
-              </div>
-            </div>
-          </article>
-
-          <article class="project-card" itemscope itemtype="https://schema.org/RealEstateListing">
-            <div class="project-badge ready">{project_status_2}</div>
-            <div class="project-img-placeholder" aria-label="Project image"></div>
-            <div class="project-body">
-              <div class="project-builder">{builder_2}</div>
-              <h3 class="project-name" itemprop="name">
-                <a href="/{city_slug}/{locality_slug}/{project_slug_2}/" itemprop="url">{project_name_2}</a>
-              </h3>
-              <div class="project-config">{project_configs_2}</div>
-              <div class="project-price">₹{project_min_2} – ₹{project_max_2}</div>
-              <div class="project-meta">
-                <span>📍 {locality}</span>
-                <span>📅 {project_possession_2}</span>
-                <span>🏗️ {project_units_2} units</span>
-              </div>
-            </div>
-          </article>
-
-          <article class="project-card" itemscope itemtype="https://schema.org/RealEstateListing">
-            <div class="project-badge upcoming">{project_status_3}</div>
-            <div class="project-img-placeholder" aria-label="Project image"></div>
-            <div class="project-body">
-              <div class="project-builder">{builder_3}</div>
-              <h3 class="project-name" itemprop="name">
-                <a href="/{city_slug}/{locality_slug}/{project_slug_3}/" itemprop="url">{project_name_3}</a>
-              </h3>
-              <div class="project-config">{project_configs_3}</div>
-              <div class="project-price">₹{project_min_3} – ₹{project_max_3}</div>
-              <div class="project-meta">
-                <span>📍 {locality}</span>
-                <span>📅 {project_possession_3}</span>
-                <span>🏗️ {project_units_3} units</span>
-              </div>
-            </div>
-          </article>
-        </div>
-
-        <div class="view-all-row">
-          <a href="/{city_slug}/{locality_slug}/new-projects/" class="btn btn-outline-brand">
-            View all {total_projects}+ projects in {locality} →
-          </a>
-        </div>
-
-      </section>
-
-      <!-- ────────────────────────────────────────────────────
-           BLOCK 6 — LIVEABILITY (Structured Data Passage)
-           SEO: "is {locality} good to live" queries
-           AEO: POI counts extracted directly by AI
-           PASSAGE: Each category card is a standalone data atom
-           ──────────────────────────────────────────────────── -->
-      <article class="content-block" id="liveability"
-               aria-labelledby="live-heading">
-
-        <div class="block-header">
-          <h2 id="live-heading" class="block-title">
-            Liveability in {locality} — Schools, Hospitals &amp; Amenities
-          </h2>
-          <div class="seo-badges-row">
-            <div class="seo-badge badge-aeo ann" data-tooltip="AEO: 'schools near {locality}', 'hospitals in {locality}' — each category answers a direct query">AEO/GEO</div>
-            <div class="seo-badge badge-passage ann" data-tooltip="Each liveability card = passage atom · POI name + distance = complete extractable unit">Passage</div>
-            <div class="seo-badge badge-content ann" data-tooltip="Content avenue: Expandable into /schools-near-{locality}/ and /hospitals-near-{locality}/ child pages">Content</div>
-          </div>
-        </div>
-
-        <div class="passage-block" data-passage-id="liveability-{locality_slug}">
-          <div class="live-score-banner">
-            <div class="live-score-main">
-              <span class="live-score-num">{livability_score}</span>
-              <span class="live-score-denom">/10</span>
-            </div>
-            <div class="live-score-label">NoBroker Liveability Score for {locality}</div>
-            <div class="live-score-rank">Ranked #{liveability_rank} out of {total_localities} localities in {city}</div>
-          </div>
-
-          <div class="amenity-grid">
-            <div class="amenity-card">
-              <div class="amenity-icon">🏫</div>
-              <div class="amenity-count">{schools_count}</div>
-              <div class="amenity-type">Schools &amp; Colleges</div>
-              <div class="amenity-top">Top: {top_school_1}, {top_school_2}</div>
-            </div>
-            <div class="amenity-card">
-              <div class="amenity-icon">🏥</div>
-              <div class="amenity-count">{hospitals_count}</div>
-              <div class="amenity-type">Hospitals &amp; Clinics</div>
-              <div class="amenity-top">Top: {top_hospital_1}, {top_hospital_2}</div>
-            </div>
-            <div class="amenity-card">
-              <div class="amenity-icon">🛒</div>
-              <div class="amenity-count">{malls_count}</div>
-              <div class="amenity-type">Malls &amp; Supermarkets</div>
-              <div class="amenity-top">Top: {top_mall_1}, {top_mall_2}</div>
-            </div>
-            <div class="amenity-card">
-              <div class="amenity-icon">🍽️</div>
-              <div class="amenity-count">{restaurants_count}+</div>
-              <div class="amenity-type">Restaurants &amp; Cafes</div>
-              <div class="amenity-top">Cuisines: {cuisine_types}</div>
-            </div>
-            <div class="amenity-card">
-              <div class="amenity-icon">🌿</div>
-              <div class="amenity-count">{parks_count}</div>
-              <div class="amenity-type">Parks &amp; Open Spaces</div>
-              <div class="amenity-top">Largest: {top_park}</div>
-            </div>
-            <div class="amenity-card">
-              <div class="amenity-icon">💼</div>
-              <div class="amenity-count">{coworking_count}</div>
-              <div class="amenity-type">Co-working Spaces</div>
-              <div class="amenity-top">Incl: {top_cowork_1}, {top_cowork_2}</div>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- ────────────────────────────────────────────────────
-           BLOCK 7 — FAQ SECTION
-           SEO: #1 AEO / AI Overview signal
-           PASSAGE: Each Q+A = independently extractable unit
-           SCHEMA: FAQPage JSON-LD (in <head>)
-           ──────────────────────────────────────────────────── -->
-      <article class="content-block" id="faqs"
-               aria-labelledby="faq-heading">
-
-        <div class="block-header">
-          <h2 id="faq-heading" class="block-title">
-            Frequently Asked Questions — {locality}, {city}
-          </h2>
-          <div class="seo-badges-row">
-            <div class="seo-badge badge-aeo ann" data-tooltip="FAQPage JSON-LD = primary AEO/GEO signal · Each answer is extracted verbatim for AI Overviews and LLM responses">AEO/GEO</div>
-            <div class="seo-badge badge-passage ann" data-tooltip="Each Q+A is a passage-indexed unit · AI crawlers extract Q+A pairs directly · Keep answers self-contained">Passage</div>
-            <div class="seo-badge badge-schema ann" data-tooltip="FAQPage schema in <head> mirrors these Q+As exactly · Schema + HTML must match for maximum extraction score">Schema</div>
-          </div>
-        </div>
-
-        <div class="passage-block faq-passage" data-passage-id="faqs-{locality_slug}">
-          <div class="faq-list" itemscope itemtype="https://schema.org/FAQPage">
-
-            <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" open>
-              <summary class="faq-question" itemprop="name">
-                What is the average property price in {locality}, {city}?
-              </summary>
-              <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p itemprop="text">
-                  The average property price in {locality}, {city} is <strong>₹{avg_price_psf} per sq ft</strong>
-                  as of {last_updated}. A 2BHK apartment typically costs between ₹{min_2bhk} and
-                  ₹{max_2bhk}, while 3BHK units range from ₹{min_3bhk} to ₹{max_3bhk}. Prices have
-                  appreciated {price_trend_yoy} compared to the same period last year.
-                </p>
-              </div>
-            </details>
-
-            <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-              <summary class="faq-question" itemprop="name">
-                Is {locality} a good place to invest in {city}?
-              </summary>
-              <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p itemprop="text">
-                  Yes, {locality} is considered a strong investment area in {city} with {price_trend_yoy}
-                  annual appreciation and {rental_yield}% gross rental yield. The area's proximity to
-                  {it_hub_name} and upcoming {upcoming_infra} makes it a preferred choice for
-                  {buyer_persona}.
-                </p>
-              </div>
-            </details>
-
-            <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-              <summary class="faq-question" itemprop="name">
-                What is the average rent for a 1BHK in {locality}?
-              </summary>
-              <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p itemprop="text">
-                  Average rent for a 1BHK in {locality} is <strong>₹{avg_rent_1bhk}/month</strong>
-                  and ₹{avg_rent_2bhk}/month for a 2BHK as of {last_updated}. Rental demand is highest
-                  in the {peak_rental_months} months due to {demand_driver}.
-                </p>
-              </div>
-            </details>
-
-            <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-              <summary class="faq-question" itemprop="name">
-                Which metro station is nearest to {locality}?
-              </summary>
-              <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p itemprop="text">
-                  The nearest metro station to {locality} is <strong>{metro_station}</strong>,
-                  approximately {metro_distance} away on the {metro_line} Line. Travel time to
-                  {city} central is approximately {metro_to_center} minutes.
-                </p>
-              </div>
-            </details>
-
-            <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-              <summary class="faq-question" itemprop="name">
-                What are the best residential projects in {locality}?
-              </summary>
-              <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p itemprop="text">
-                  Top residential projects in {locality} include {top_projects} by developers
-                  such as {top_builders}. For new launches under ₹{budget_threshold},
-                  <a href="/{city_slug}/{locality_slug}/new-projects/">view all new projects in {locality}</a>.
-                </p>
-              </div>
-            </details>
-
-          </div>
-        </div>
-      </article>
-
-    </div><!-- /primary-col -->
-
-    <!-- ─────────────── RIGHT / SIDEBAR COLUMN ─────────────── -->
-    <aside class="sidebar-col" aria-label="Sidebar">
-
-      <!-- CTA Widget -->
-      <div class="sidebar-widget cta-widget">
-        <div class="seo-badge badge-content ann" data-tooltip="Content avenue: Lead capture widget · Conversion-optimised CTA anchored to locality intent">Content</div>
-        <h3 class="widget-title">Find Properties in {locality}</h3>
-        <div class="cta-form">
-          <select class="form-select" aria-label="Property type">
-            <option>2 BHK Apartment</option>
-            <option>3 BHK Apartment</option>
-            <option>1 BHK Apartment</option>
-            <option>Villa / Independent</option>
-          </select>
-          <select class="form-select" aria-label="Budget">
-            <option>Budget: Under ₹50L</option>
-            <option>₹50L – ₹1Cr</option>
-            <option>₹1Cr – ₹2Cr</option>
-            <option>Above ₹2Cr</option>
-          </select>
-          <button class="btn btn-primary btn-full">Search FREE — No Brokerage</button>
-        </div>
-        <div class="cta-trust">🔒 Zero brokerage · {active_listings}+ listings</div>
+    <section class="content-section" id="designers" aria-labelledby="designers-heading">
+      <div class="section-badges">
+        <span class="badge badge-green">Verified</span>
+        <span class="badge badge-blue">Top Rated</span>
+        <span class="badge badge-orange">Portfolio Verified</span>
       </div>
+      <h2 id="designers-heading">Top Home Interior Designers in {locality}, {city}</h2>
 
-      <!-- Quick Price Widget -->
-      <div class="sidebar-widget">
-        <div class="seo-badge badge-passage ann" data-tooltip="Passage atom: Price summary widget · Reinforces data signals extracted from main content">Passage</div>
-        <h3 class="widget-title">Price at a Glance</h3>
-        <div class="quick-stats">
-          <div class="qs-row"><span class="qs-label">Avg Price/sq ft</span><span class="qs-val">₹{avg_price_psf}</span></div>
-          <div class="qs-row"><span class="qs-label">1BHK Rent</span><span class="qs-val">₹{avg_rent_1bhk}/mo</span></div>
-          <div class="qs-row"><span class="qs-label">2BHK Rent</span><span class="qs-val">₹{avg_rent_2bhk}/mo</span></div>
-          <div class="qs-row"><span class="qs-label">Price trend</span><span class="qs-val positive">{price_trend_yoy}</span></div>
-          <div class="qs-row"><span class="qs-label">Rental yield</span><span class="qs-val">{rental_yield}%</span></div>
-          <div class="qs-row"><span class="qs-label">Liveability</span><span class="qs-val">{livability_score}/10</span></div>
+      <div class="designers-grid">
+
+        <article class="designer-card" itemscope itemtype="https://schema.org/LocalBusiness">
+          <div class="designer-badge">Project 1</div>
+          <div class="designer-header">
+            <div class="designer-avatar" aria-label="Designer avatar">🎨</div>
+            <div class="designer-meta">
+              <h3 itemprop="name">{designer_name_1}</h3>
+              <div class="designer-rating">
+                <span class="stars" aria-label="{designer_rating_1} out of 5 stars">★★★★★</span>
+                <span itemprop="ratingValue">{designer_rating_1}</span>/5
+                <span class="review-count">({designer_reviews_1} reviews)</span>
+              </div>
+            </div>
+          </div>
+          <div class="designer-tags">
+            <span>{designer_style_1}</span><span>{designer_specialty_1}</span><span>Turnkey</span>
+          </div>
+          <div class="designer-stats">
+            <div><strong itemprop="numberOfProjects">{designer_projects_1}+</strong><span>Projects</span></div>
+            <div><strong>{designer_exp_1} Yrs</strong><span>Experience</span></div>
+            <div><strong>₹{designer_price_1}/sqft</strong><span>Starting</span></div>
+          </div>
+          <a href="/interior-designers/{city}/{designer_slug_1}" class="btn-primary-nb btn-full">View Portfolio →</a>
+        </article>
+
+        <article class="designer-card" itemscope itemtype="https://schema.org/LocalBusiness">
+          <div class="designer-badge">Project 2</div>
+          <div class="designer-header">
+            <div class="designer-avatar">🖌</div>
+            <div class="designer-meta">
+              <h3 itemprop="name">{designer_name_2}</h3>
+              <div class="designer-rating">
+                <span class="stars">★★★★½</span>
+                <span itemprop="ratingValue">{designer_rating_2}</span>/5
+                <span class="review-count">({designer_reviews_2} reviews)</span>
+              </div>
+            </div>
+          </div>
+          <div class="designer-tags">
+            <span>{designer_style_2}</span><span>{designer_specialty_2}</span><span>3D Design</span>
+          </div>
+          <div class="designer-stats">
+            <div><strong>{designer_projects_2}+</strong><span>Projects</span></div>
+            <div><strong>{designer_exp_2} Yrs</strong><span>Experience</span></div>
+            <div><strong>₹{designer_price_2}/sqft</strong><span>Starting</span></div>
+          </div>
+          <a href="/interior-designers/{city}/{designer_slug_2}" class="btn-primary-nb btn-full">View Portfolio →</a>
+        </article>
+
+        <article class="designer-card" itemscope itemtype="https://schema.org/LocalBusiness">
+          <div class="designer-badge">Project 3</div>
+          <div class="designer-header">
+            <div class="designer-avatar">🏛</div>
+            <div class="designer-meta">
+              <h3 itemprop="name">{designer_name_3}</h3>
+              <div class="designer-rating">
+                <span class="stars">★★★★★</span>
+                <span itemprop="ratingValue">{designer_rating_3}</span>/5
+                <span class="review-count">({designer_reviews_3} reviews)</span>
+              </div>
+            </div>
+          </div>
+          <div class="designer-tags">
+            <span>{designer_style_3}</span><span>{designer_specialty_3}</span><span>Luxury</span>
+          </div>
+          <div class="designer-stats">
+            <div><strong>{designer_projects_3}+</strong><span>Projects</span></div>
+            <div><strong>{designer_exp_3} Yrs</strong><span>Experience</span></div>
+            <div><strong>₹{designer_price_3}/sqft</strong><span>Starting</span></div>
+          </div>
+          <a href="/interior-designers/{city}/{designer_slug_3}" class="btn-primary-nb btn-full">View Portfolio →</a>
+        </article>
+
+      </div>
+      <div class="section-cta-center">
+        <a href="/interior-designers/{city}" class="btn-outline">View All {active_listings}+ Designers in {city} →</a>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════
+         SECTION 6: DESIGN STYLES / THEMES
+         AEO: "What interior styles are popular in {city}?"
+         PASSAGE: Each style card = standalone answer chunk
+         INTERNAL LINK: Style → style landing pages
+         ════════════════════════════════════════════════ -->
+    <div class="seo-signal-bar">
+      <span class="signal-label aeo">AEO</span> Style cards = AI answer for "popular interior design styles in {city}"
+      &nbsp;|&nbsp;
+      <span class="signal-label passage">PASSAGE</span> Style descriptions = standalone extractable passages
+      &nbsp;|&nbsp;
+      <span class="signal-label internal-link">INTERNAL LINK</span> Each style → dedicated style + city landing page
+    </div>
+
+    <section class="content-section" id="styles" aria-labelledby="styles-heading">
+      <h2 id="styles-heading">Popular Interior Design Styles in {locality}, {city}</h2>
+
+      <div class="styles-grid">
+        <a href="/interior-designers/{city}/contemporary" class="style-card">
+          <div class="style-icon">◼</div>
+          <h3>Contemporary</h3>
+          <p>Clean lines, neutral palettes, open-plan layouts. Most preferred in {city} ({contemporary_percent}% of projects).</p>
+          <span class="style-cost">Avg: ₹{contemporary_cost}/sqft</span>
+        </a>
+        <a href="/interior-designers/{city}/scandinavian" class="style-card">
+          <div class="style-icon">❄</div>
+          <h3>Scandinavian</h3>
+          <p>Minimalist warmth with natural wood, white tones & functional furniture. Rising 32% YoY.</p>
+          <span class="style-cost">Avg: ₹{scandinavian_cost}/sqft</span>
+        </a>
+        <a href="/interior-designers/{city}/luxury-modern" class="style-card style-card--featured">
+          <h3>Luxury / Modern</h3>
+          <div class="style-icon">✦</div>
+          <p>High-gloss finishes, imported materials, bespoke furniture & smart-home integration.</p>
+          <span class="style-cost">Avg: ₹{luxury_cost}/sqft</span>
+        </a>
+        <a href="/interior-designers/{city}/traditional-indian" class="style-card">
+          <div class="style-icon">🏮</div>
+          <h3>Traditional Indian</h3>
+          <p>Jali work, brass accents, earthy tones & handicraft-forward décor elements.</p>
+          <span class="style-cost">Avg: ₹{traditional_cost}/sqft</span>
+        </a>
+        <a href="/interior-designers/{city}/industrial" class="style-card">
+          <div class="style-icon">⚙</div>
+          <h3>Industrial</h3>
+          <p>Exposed brick, metal frames, concrete finishes & Edison lighting for urban lofts.</p>
+          <span class="style-cost">Avg: ₹{industrial_cost}/sqft</span>
+        </a>
+        <a href="/interior-designers/{city}/bohemian" class="style-card">
+          <div class="style-icon">🌿</div>
+          <h3>Bohemian / Eclectic</h3>
+          <p>Mixed textures, vibrant colours, global artefacts & layered patterns for expressive spaces.</p>
+          <span class="style-cost">Avg: ₹{bohemian_cost}/sqft</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════
+         SECTION 7: LIVABILITY / NEIGHBOURHOOD SCORE
+         AEO: Score cards = AI "is {locality} good for X?" answer
+         GEO: Quantified claims = LLM grounding facts
+         PASSAGE: Each score widget = extractable data point
+         ════════════════════════════════════════════════ -->
+    <div class="seo-signal-bar">
+      <span class="signal-label aeo">AEO</span> Livability score = AI answer for "Is {locality} good for living?" queries
+      &nbsp;|&nbsp;
+      <span class="signal-label geo">GEO</span> Quantified local data = LLM grounding (Perplexity / Gemini / ChatGPT)
+      &nbsp;|&nbsp;
+      <span class="signal-label passage">PASSAGE</span> Score category = discrete extractable data passage
+    </div>
+
+    <section class="content-section livability-section" id="livability" aria-labelledby="livability-heading">
+      <h2 id="livability-heading">Neighbourhood Profile — {locality}, {city}</h2>
+
+      <div class="livability-hero">
+        <div class="livability-score-display">
+          <span class="livability-big-score">{livability_score}</span>
+          <span class="livability-out">/10</span>
+        </div>
+        <div class="livability-desc">
+          <strong>NoBroker Livability Score for {locality}</strong>
+          <p>Based on {livability_data_points}+ verified data points across infrastructure, amenities, safety & design demand.</p>
         </div>
       </div>
 
-      <!-- NEARBY LOCALITIES — Primary internal link block -->
-      <div class="sidebar-widget" id="nearby-localities">
-        <div class="seo-badge badge-link ann" data-tooltip="Internal link block: 5–8 geographically proximate localities · PageRank distribution + discovery path for crawlers">Link</div>
-        <h3 class="widget-title">Nearby Localities in {city}</h3>
-        <ul class="nearby-list" aria-label="Nearby localities">
-          <li><a href="/{city_slug}/{nearby_1_slug}/property-for-{intent}/">{nearby_1} <span class="dist">{nearby_1_dist}</span></a></li>
-          <li><a href="/{city_slug}/{nearby_2_slug}/property-for-{intent}/">{nearby_2} <span class="dist">{nearby_2_dist}</span></a></li>
-          <li><a href="/{city_slug}/{nearby_3_slug}/property-for-{intent}/">{nearby_3} <span class="dist">{nearby_3_dist}</span></a></li>
-          <li><a href="/{city_slug}/{nearby_4_slug}/property-for-{intent}/">{nearby_4} <span class="dist">{nearby_4_dist}</span></a></li>
-          <li><a href="/{city_slug}/{nearby_5_slug}/property-for-{intent}/">{nearby_5} <span class="dist">{nearby_5_dist}</span></a></li>
-          <li><a href="/{city_slug}/{nearby_6_slug}/property-for-{intent}/">{nearby_6} <span class="dist">{nearby_6_dist}</span></a></li>
-        </ul>
-        <a href="/{city_slug}/property/" class="see-all-link">All localities in {city} →</a>
-      </div>
-
-      <!-- EXPLORE BY BHK — Cross-intent internal links -->
-      <div class="sidebar-widget">
-        <div class="seo-badge badge-link ann" data-tooltip="Cross-intent internal links: Same locality, different BHK/intent queries — captures full keyword cluster">Link</div>
-        <h3 class="widget-title">Explore in {locality}</h3>
-        <div class="explore-links">
-          <a href="/{city_slug}/{locality_slug}/1-bhk-for-rent/">1 BHK for Rent</a>
-          <a href="/{city_slug}/{locality_slug}/2-bhk-for-rent/">2 BHK for Rent</a>
-          <a href="/{city_slug}/{locality_slug}/1-bhk-for-buy/">1 BHK for Sale</a>
-          <a href="/{city_slug}/{locality_slug}/2-bhk-for-buy/">2 BHK for Sale</a>
-          <a href="/{city_slug}/{locality_slug}/3-bhk-for-buy/">3 BHK for Sale</a>
-          <a href="/{city_slug}/{locality_slug}/villa-for-buy/">Villa for Sale</a>
-          <a href="/{city_slug}/{locality_slug}/new-projects/">New Projects</a>
-          <a href="/{city_slug}/{locality_slug}/pg-hostels/">PG &amp; Hostels</a>
+      <div class="livability-grid">
+        <div class="livability-card">
+          <span class="liv-icon">🏫</span>
+          <strong class="liv-value">{schools_count}+</strong>
+          <span class="liv-label">Schools & Colleges</span>
+          <small>Avg. {school_distance}km away</small>
+        </div>
+        <div class="livability-card">
+          <span class="liv-icon">🏥</span>
+          <strong class="liv-value">{hospitals_count}+</strong>
+          <span class="liv-label">Hospitals & Clinics</span>
+          <small>Incl. {hospital_name}</small>
+        </div>
+        <div class="livability-card">
+          <span class="liv-icon">🛍</span>
+          <strong class="liv-value">{malls_count}+</strong>
+          <span class="liv-label">Malls & Markets</span>
+          <small>Incl. {mall_name}</small>
+        </div>
+        <div class="livability-card">
+          <span class="liv-icon">🍽</span>
+          <strong class="liv-value">{restaurants_count}+</strong>
+          <span class="liv-label">Restaurants & Cafés</span>
+          <small>Avg. {food_rating} rating</small>
+        </div>
+        <div class="livability-card">
+          <span class="liv-icon">🌳</span>
+          <strong class="liv-value">{parks_count}+</strong>
+          <span class="liv-label">Parks & Open Spaces</span>
+          <small>Largest: {park_name}</small>
+        </div>
+        <div class="livability-card">
+          <span class="liv-icon">💡</span>
+          <strong class="liv-value">{design_studios_count}+</strong>
+          <span class="liv-label">Design Studios Nearby</span>
+          <small>Within {studio_radius}km radius</small>
         </div>
       </div>
+    </section>
 
-    </aside><!-- /sidebar-col -->
+    <!-- ════════════════════════════════════════════════
+         SECTION 8: HOW IT WORKS
+         AEO: HowTo schema content = AI step answer
+         PASSAGE: Each step = sequential passage chunk
+         ════════════════════════════════════════════════ -->
+    <div class="seo-signal-bar">
+      <span class="signal-label aeo">AEO</span> Process steps = HowTo schema + AI Overview for "How to hire interior designer" queries
+      &nbsp;|&nbsp;
+      <span class="signal-label passage">PASSAGE</span> Each step = sequential passage — supports multi-step AI answers
+    </div>
 
-  </div><!-- /content-grid -->
-</main>
+    <section class="content-section" id="how-it-works" aria-labelledby="how-heading">
+      <h2 id="how-heading">How to Hire an Interior Designer in {city} via NoBroker</h2>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">01</div>
+          <h3>Share Your Requirements</h3>
+          <p>Tell us your home type, preferred style, budget range & timeline. Takes under 2 minutes.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">02</div>
+          <h3>Get Matched Instantly</h3>
+          <p>Our algorithm matches you with {match_count} verified designers based on your requirements & locality.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">03</div>
+          <h3>Compare Portfolios & Quotes</h3>
+          <p>Review 3D renders, past projects, client reviews & detailed quotes side-by-side.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">04</div>
+          <h3>Book & Track Progress</h3>
+          <p>Sign contract, make milestone payments & track your project status in real-time via NoBroker app.</p>
+        </div>
+      </div>
+    </section>
 
-<!-- ══════════════════════════════════════════════════════
-     INTERNAL LINK HUB — City & Area cross-links
-     SEO: Bottom-of-page authority distribution
-     ══════════════════════════════════════════════════════ -->
-<section class="link-hub" aria-labelledby="linkhub-heading">
-  <div class="container">
-    <div class="seo-badge badge-link ann" data-tooltip="Link hub: City-level internal links distribute PageRank across the hub-spoke architecture · Max 40 links per hub block">Link</div>
-    <h2 id="linkhub-heading" class="link-hub-title">Explore Properties in {city}</h2>
+    <!-- ════════════════════════════════════════════════
+         SECTION 9: FAQ
+         AEO: FAQPage schema = #1 People Also Ask source
+         GEO: Each Q&A = LLM training signal
+         PASSAGE: Each FAQ = standalone passage
+         ════════════════════════════════════════════════ -->
+    <div class="seo-signal-bar">
+      <span class="signal-label aeo">AEO</span> FAQPage schema = People Also Ask + AI Overview primary source
+      &nbsp;|&nbsp;
+      <span class="signal-label geo">GEO</span> Each Q&A pair = LLM training/RAG signal — directly cited by AI chatbots
+      &nbsp;|&nbsp;
+      <span class="signal-label passage">PASSAGE</span> Each FAQ item = independently indexable passage
+    </div>
 
-    <div class="link-hub-grid">
-      <div class="link-col">
-        <h3 class="link-col-title">Popular Areas</h3>
-        <ul>
-          <li><a href="/{city_slug}/koramangala/property-for-buy/">Koramangala</a></li>
-          <li><a href="/{city_slug}/btm-layout/property-for-buy/">BTM Layout</a></li>
-          <li><a href="/{city_slug}/electronic-city/property-for-buy/">Electronic City</a></li>
-          <li><a href="/{city_slug}/whitefield/property-for-buy/">Whitefield</a></li>
-          <li><a href="/{city_slug}/sarjapur/property-for-buy/">Sarjapur Road</a></li>
-          <li><a href="/{city_slug}/hebbal/property-for-buy/">Hebbal</a></li>
-        </ul>
+    <section class="content-section" id="faq" aria-labelledby="faq-heading">
+      <div class="section-badges">
+        <span class="badge badge-green">Verified</span>
+        <span class="badge badge-blue">Expert</span>
+        <span class="badge badge-orange">Realtime</span>
       </div>
-      <div class="link-col">
-        <h3 class="link-col-title">By Budget</h3>
-        <ul>
-          <li><a href="/{city_slug}/property-under-50-lakhs/">Properties under ₹50L</a></li>
-          <li><a href="/{city_slug}/property-50-lakhs-to-1-cr/">₹50L – ₹1 Cr</a></li>
-          <li><a href="/{city_slug}/property-1-cr-to-2-cr/">₹1Cr – ₹2Cr</a></li>
-          <li><a href="/{city_slug}/luxury-property/">Luxury above ₹2Cr</a></li>
-        </ul>
+      <h2 id="faq-heading">Frequently Asked Questions — {locality}, {city}</h2>
+
+      <div class="faq-list" role="list">
+
+        <details class="faq-item" open>
+          <summary class="faq-question">What is the average interior design cost in {locality}, {city}?</summary>
+          <div class="faq-answer">
+            The average interior design cost in {locality}, {city} is ₹{avg_cost_psf} per sq.ft as of {last_updated}. A 2BHK apartment typically costs between ₹{avg_2bhk_min} and ₹{avg_2bhk_max}, while 3BHK projects range from ₹{avg_3bhk_min} to ₹{avg_3bhk_max}. Prices vary based on style (contemporary, modular, luxury), material quality, and scope of work. Get a free detailed quote from verified designers.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">Is {locality} a good place to invest in a quality interior designer?</summary>
+          <div class="faq-answer">
+            Yes. {locality}'s real estate appreciation of {price_growth}% over {time_period} makes interior investment worthwhile — a well-designed home commands {rental_premium}% higher rent and {resale_premium}% better resale value in this market.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">What is the average timeline for a full home interior in {city}?</summary>
+          <div class="faq-answer">
+            A full home interior project in {city} takes {avg_timeline} weeks on average — from design approval to final handover. Modular kitchen installations take {kitchen_timeline} weeks, while bedroom wardrobes average {wardrobe_timeline} weeks. Luxury projects with imported materials may take longer.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">Which metro station is nearest to {locality}?</summary>
+          <div class="faq-answer">
+            The nearest metro station to {locality} is {nearest_metro} on the {metro_line} Line, approximately {metro_distance}km away. This connectivity makes it convenient for designer consultations and material sourcing from {metro_market_hub}.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">What are the best interior designers in {locality}?</summary>
+          <div class="faq-answer">
+            Top-rated interior designers in {locality} include {designer_name_1} ({designer_rating_1}/5, {designer_projects_1}+ projects), {designer_name_2} ({designer_rating_2}/5), and {designer_name_3} (specialising in {designer_specialty_3}). All are verified by NoBroker with portfolio reviews available on their profiles.
+          </div>
+        </details>
+
       </div>
-      <div class="link-col">
-        <h3 class="link-col-title">By Property Type</h3>
-        <ul>
-          <li><a href="/{city_slug}/1-bhk-flat-for-rent/">1 BHK Flats for Rent</a></li>
-          <li><a href="/{city_slug}/2-bhk-flat-for-buy/">2 BHK Flats for Sale</a></li>
-          <li><a href="/{city_slug}/villa-for-sale/">Villas for Sale</a></li>
-          <li><a href="/{city_slug}/pg-accommodation/">PG Accommodation</a></li>
-          <li><a href="/{city_slug}/commercial-office-space/">Commercial Space</a></li>
-        </ul>
+    </section>
+
+    <!-- ════════════════════════════════════════════════
+         SECTION 10: INTERNAL LINKING HUB
+         SEO: Anchor-text-rich internal links = PageRank flow
+         AEO: Related pages = AI crawl graph expansion
+         INTERNAL LINK: Breadth-first link clusters
+         ════════════════════════════════════════════════ -->
+    <div class="seo-signal-bar">
+      <span class="signal-label seo">SEO</span> Internal link hub = PageRank distribution + crawl depth optimization
+      &nbsp;|&nbsp;
+      <span class="signal-label aeo">AEO</span> Related pages signal topical authority to AI crawlers
+      &nbsp;|&nbsp;
+      <span class="signal-label internal-link">INTERNAL LINK</span> Anchor text variation = keyword signal without over-optimisation
+    </div>
+
+    <section class="explore-section" id="explore" aria-labelledby="explore-heading">
+      <h2 id="explore-heading">Explore Interior Designers in {city}</h2>
+
+      <div class="explore-grid">
+        <div class="explore-col">
+          <h3>Popular Areas</h3>
+          <ul>
+            <li><a href="/interior-designers/{city}/{locality_1}">Interior Designers in {locality_1}</a></li>
+            <li><a href="/interior-designers/{city}/{locality_2}">Interior Designers in {locality_2}</a></li>
+            <li><a href="/interior-designers/{city}/{locality_3}">Interior Designers in {locality_3}</a></li>
+            <li><a href="/interior-designers/{city}/{locality_4}">Interior Designers in {locality_4}</a></li>
+            <li><a href="/interior-designers/{city}/{locality_5}">Interior Designers in {locality_5}</a></li>
+          </ul>
+        </div>
+        <div class="explore-col">
+          <h3>By Budget</h3>
+          <ul>
+            <li><a href="/interior-designers/{city}/budget-under-5-lakh">Budget Interior Designers (Under ₹5L)</a></li>
+            <li><a href="/interior-designers/{city}/mid-range-5-15-lakh">Mid-Range Interior (₹5L–₹15L)</a></li>
+            <li><a href="/interior-designers/{city}/premium-above-15-lakh">Premium Interior (Above ₹15L)</a></li>
+          </ul>
+        </div>
+        <div class="explore-col">
+          <h3>By Property Type</h3>
+          <ul>
+            <li><a href="/interior-designers/{city}/1bhk">1BHK Interior Designers in {city}</a></li>
+            <li><a href="/interior-designers/{city}/2bhk">2BHK Interior Designers in {city}</a></li>
+            <li><a href="/interior-designers/{city}/3bhk">3BHK Interior Designers in {city}</a></li>
+            <li><a href="/interior-designers/{city}/villa">Villa Interior Designers in {city}</a></li>
+            <li><a href="/interior-designers/{city}/office">Home Office Design in {city}</a></li>
+          </ul>
+        </div>
+        <div class="explore-col">
+          <h3>Nearby Cities</h3>
+          <ul>
+            <li><a href="/interior-designers/{nearby_city_1}">Interior Designers in {nearby_city_1}</a></li>
+            <li><a href="/interior-designers/{nearby_city_2}">Interior Designers in {nearby_city_2}</a></li>
+            <li><a href="/interior-designers/{nearby_city_3}">Interior Designers in {nearby_city_3}</a></li>
+            <li><a href="/interior-designers/{nearby_city_4}">Interior Designers in {nearby_city_4}</a></li>
+          </ul>
+        </div>
       </div>
-      <div class="link-col">
-        <h3 class="link-col-title">Nearby Cities</h3>
-        <ul>
-          <li><a href="/mysuru/property/">Mysuru Properties</a></li>
-          <li><a href="/hubli/property/">Hubli Properties</a></li>
-          <li><a href="/mangaluru/property/">Mangaluru Properties</a></li>
-        </ul>
+    </section>
+
+  </main>
+
+  <!-- ════════════════════════════════════════════════
+       FOOTER: Internal linking + brand signals
+       ════════════════════════════════════════════════ -->
+  <footer class="site-footer" aria-label="Site footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="nb-logo">NoBroker<span class="logo-dot">.</span></div>
+        <p>India's #1 property platform. Zero brokerage. Verified interior designers.</p>
       </div>
+      <div class="footer-links-grid">
+        <div>
+          <h4>Interior Design</h4>
+          <a href="/interior-designers">All Cities</a>
+          <a href="/interior-designers/how-it-works">How It Works</a>
+          <a href="/interior-designers/cost-calculator">Cost Calculator</a>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <a href="/buy">Buy Property</a>
+          <a href="/rent">Rent Property</a>
+          <a href="/home-loans">Home Loans</a>
+          <a href="/packers-movers">Packers & Movers</a>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/terms">Terms of Service</a>
+          <a href="/sitemap.xml">Sitemap</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 NoBroker Technologies Solutions Pvt. Ltd. All rights reserved.</p>
+      <p>CIN: U74900KA2014PTC075268 | Registered in India</p>
+    </div>
+  </footer>
+
+  <!-- ════════════════════════════════════════════════
+       SEO LEGEND (visible on page for demo purposes)
+       ════════════════════════════════════════════════ -->
+  <div class="seo-legend" role="complementary" aria-label="SEO element legend">
+    <h4>🗺 SEO Signal Legend</h4>
+    <div class="legend-items">
+      <span class="signal-label seo">SEO</span> On-page SEO / Schema / H-tags
+      <span class="signal-label aeo">AEO</span> Answer Engine Optimisation (AI Overviews, PAA)
+      <span class="signal-label geo">GEO</span> Generative Engine Optimisation (ChatGPT/Gemini/Perplexity citations)
+      <span class="signal-label passage">PASSAGE</span> Passage Indexing / AI chunk extractability
+      <span class="signal-label internal-link">INTERNAL LINK</span> Internal linking / PageRank flow
     </div>
   </div>
-</section>
-
-<!-- ══════════════════════════════════════════════════════
-     FOOTER
-     ══════════════════════════════════════════════════════ -->
-<footer class="site-footer" role="contentinfo">
-  <div class="container footer-inner">
-    <div class="footer-brand">
-      <span class="logo-text">NoBroker<span class="logo-dot">.</span></span>
-      <p class="footer-tagline">India's Largest Zero Brokerage Real Estate Platform</p>
-    </div>
-    <div class="footer-links">
-      <a href="/about/">About</a>
-      <a href="/privacy/">Privacy</a>
-      <a href="/terms/">Terms</a>
-      <a href="/sitemap.xml">Sitemap</a>
-    </div>
-    <div class="footer-note">
-      © 2025 NoBroker Technologies Solutions Pvt. Ltd. ·
-      Data sourced from registered transactions and NoBroker listings database.
-    </div>
-  </div>
-</footer>
-
-<script>
-  function toggleAnnotations() {
-    const badges = document.querySelectorAll('.seo-badge.ann, [data-tooltip]');
-    const btn = document.querySelector('.toggle-annotations');
-    const isHidden = document.body.classList.toggle('hide-annotations');
-    btn.textContent = isHidden ? 'Show Annotations' : 'Hide Annotations';
-  }
-
-  // Tooltip logic
-  document.querySelectorAll('[data-tooltip]').forEach(el => {
-    let tip;
-    el.addEventListener('mouseenter', () => {
-      tip = document.createElement('div');
-      tip.className = 'tooltip-box';
-      tip.textContent = el.dataset.tooltip;
-      document.body.appendChild(tip);
-      const r = el.getBoundingClientRect();
-      tip.style.top = (r.bottom + window.scrollY + 8) + 'px';
-      tip.style.left = Math.min(r.left + window.scrollX, window.innerWidth - 320) + 'px';
-    });
-    el.addEventListener('mouseleave', () => { if (tip) tip.remove(); });
-  });
-</script>
 
 </body>
 </html>
